@@ -18,7 +18,7 @@ public class Activity {
 	 */
 	private long   id;
 	private String name;
-	private String subType;
+	private Integer subType;
 	private String description;
 	private String image;
 	
@@ -60,15 +60,15 @@ public class Activity {
 	/**
 	 * @return subType
 	 */
-	public String getSubType() {
+	public Integer getSubType() {
 		return subType;
 	}
 
 	/**
-	 * @param subType 
+	 * @param integer 
 	 */
-	public void setSubType(String subType) {
-		this.subType = subType;
+	public void setSubType(Integer integer) {
+		this.subType = integer;
 	}
 
 	/**
