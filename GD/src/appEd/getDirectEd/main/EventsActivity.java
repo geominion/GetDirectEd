@@ -1,42 +1,42 @@
 package appEd.getDirectEd.main;
 
-import java.util.ArrayList;
-
-import android.app.Activity;
-import android.database.Cursor;
+import android.app.TabActivity;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.TabHost;
 
-public class EventsActivity extends Activity {
+public class EventsActivity extends TabActivity {
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
+	public void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+	   
         setContentView(R.layout.events_view);
-        ListView eventView = (ListView) findViewById(R.id.listView1);
-        String[] events = {};
-        ArrayList<String> eventList=new ArrayList<String>();
-        myDB = events.this.openOrCreateDatabase("db", MODE_PRIVATE, null);
-        Cursor eventscursor = ourDB.rawQuery("SELECT * FROM events");
+        
+        Resources res = getResources(); // Resource object to get Drawables
+        TabHost tabHost = getTabHost();  // The activity TabHost
+        TabHost.TabSpec spec;  // Resusable TabSpec for each tab
+        Intent intent;  // Reusable Intent for each tab
+        
+        intent = new Intent().setClass(this, DayEventsActivity.class);
+        spec = tabHost.newTabSpec("today").setIndicator("Today",
+                          res.getDrawable(R.drawable.ic_tab_artists))
+                      .setContent(intent);
+        tabHost.addTab(spec);
+        
+        intent = new Intent().setClass(this, WeekEventsActivity.class);
+        spec = tabHost.newTabSpec("week").setIndicator("Week",
+                          res.getDrawable(R.drawable.ic_tab_artists))
+                      .setContent(intent);
+        tabHost.addTab(spec);
+        
+        intent = new Intent().setClass(this, MonthEventsActivity.class);
+        spec = tabHost.newTabSpec("month").setIndicator("Month",
+                          res.getDrawable(R.drawable.ic_tab_artists))
+                      .setContent(intent);
+        tabHost.addTab(spec);
 
-       String[] eventsarray = new String[eventscursor.getCount()];
-       eventscursor.moveToFirst();   
-
-       int counter = 0;
-       while(eventscursor.moveToNext()){
-           String eventName = eventscursor.getString(eventscursor.getColumnIndex("event_name"));
-           eventList.add(eventName);
-           counter++;
-       }
-       if(eventList != null){
-            eventView.setVisibility(View.VISIBLE);
-            events=(String[])eventList.toArray(new String[0]);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, android.R.id.text1, events);
-            // Assign adapter to ListView
-            eventView.setAdapter(adapter);
-       }
+        tabHost.setCurrentTab(2);
 	}
+
 }
