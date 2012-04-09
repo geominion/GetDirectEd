@@ -9,10 +9,10 @@
         <item >Events</item>
         <item >Right Now</item>
     </string-array>
-        <string name="activities">Activities</string>
-        <string name="facilities">Facilities</string>
-        <string name="event">Event</string>
-        <string name="r_now">Right Now</string>
-        <string name="favourites">Favourites</string>
+    <string name="activities">Activities</string>
+    <string name="facilities">Facilities</string>
+    <string name="event">Event</string>
+    <string name="r_now">Right Now</string>
+    <string name="favourites">Favourites</string>
 
 </resources>
