@@ -16,7 +16,7 @@ public class SubActivity{
 	private long   id;
 	private String name;
 	private String description;
-	private Integer superTypeID;
+	private long   superTypeID;
 
 	
 	/**
@@ -57,14 +57,14 @@ public class SubActivity{
 	/**
 	 * @return subType
 	 */
-	public Integer getSuperType() {
+	public long getSuperType() {
 		return superTypeID;
 	}
 
 	/**
 	 * @param subType 
 	 */
-	public void setSuperType(Integer superTypeID) {
+	public void setSuperType(long superTypeID) {
 		this.superTypeID = superTypeID;
 	}
 
