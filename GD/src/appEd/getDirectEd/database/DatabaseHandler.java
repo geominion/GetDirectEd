@@ -8,7 +8,6 @@ import appEd.getDirectEd.model.Facility;
 import appEd.getDirectEd.model.Activity;
 import appEd.getDirectEd.model.SubActivity;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -29,6 +28,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public static final String SUB_ACT_TABLE = "Sub_Activities_Table";
 	public static final String FAC_ACT_TABLE = "Facility_Activity_Table";
 	public static final String FAC_TYPE_TABLE = "Facility_Type";
+	public static final String SUPER_ACT_TABLE = "Fac_Super_Act_Table";
+
 	
 	// Columns for Facilities_Table
 	private static final String ID = "id";
@@ -54,16 +55,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//description
 	private static final String SUPER_TYPE = "Super_Activity";
 	
-	//Columns for Facility_Activity_Table
+	//Columns for Facility_Type_Table
 	//ID
 	private static final String FAC_TYPE_NAME = "Type_of_Facility";
 	//desc
 	
-	//Columns for Facility_Type_Type
+	//Columns for Facility_Activity_Table
 	private static final String F_ID = "Facility_ID";
 	private static final String A_ID = "Sub_Activity_ID";
 	private static final String S_HOURS = "Start_Time";
 	private static final String E_HOURS = "End_Time";
+	
+	//Columns for Facility_Super_Activity_Table
+	//F_ID
+	private static final String SUPER_ACT_ID = "Super_Activity_ID";
+	//DESC
 	
 	//Private structures
 	private ArrayList<Activity> activities = new ArrayList<Activity>();
@@ -82,6 +88,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + SUB_ACT_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + FAC_ACT_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + FAC_TYPE_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + SUPER_ACT_TABLE);		
 	}
 	
 	private static void addFacilitiesTable(SQLiteDatabase db){
@@ -133,9 +140,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				"Create table "
 				+ FAC_ACT_TABLE
 				+ " ("
-				+ ID + " Integer, "
-				+ FAC_TYPE_NAME + " Text, "
-				+ DESC + " BLOB "
+				+ F_ID + " Integer, "
+				+ A_ID + " Integer, "
+				+ S_HOURS + " Text, "
+				+ E_HOURS + " Text "
 				+ ")";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
@@ -144,25 +152,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				"Create table "
 				+ FAC_TYPE_TABLE
 				+ " ("
-				+ F_ID + " Integer, "
-				+ A_ID + " Integer, "
-				+ S_HOURS + " Text, "
-				+ E_HOURS + " Text "
+				+ ID + " Integer, "
+				+ FAC_TYPE_NAME + " Text, "
+				+ DESC + " BLOB "
 				+ ")";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
+	private static void addSuperActTable(SQLiteDatabase db){
+		String CREAT_TABLE_STATEMENT = 
+				"Create table "
+				+ SUPER_ACT_TABLE
+				+ " ("
+				+ F_ID + " Integer, "
+				+ SUPER_ACT_ID + " Integer, "
+				+ DESC + " BLOB "
+				+ ")";
+		db.execSQL(CREAT_TABLE_STATEMENT);
+	}
+	
+
 	
 	// Create tables
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		System.out.println("******** DO I EVER GET CALLED ***********");
+		//dropAllTables(db);
 		
 		addFacilitiesTable(db);
 		addActivitiesTable(db);
 		addFacActTable(db);
 		addFacTypeTable(db);
 		addSubActivitiesTable(db);
+		addSuperActTable(db);
 	}
 
 	// Upgrading database
@@ -423,12 +445,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				cursor.moveToNext();
 			}
 		}
+		cursor.close();
 		return id;
 	}
 	
 	public Integer getActivityID(String activityName){
 		SQLiteDatabase db = this.getReadableDatabase();
 		Integer id = 0;
+		
+		if(activityName == ""){
+			return id = 0;
+		}
 		
 		String selectQuery = "Select " 
 								+ ID 
@@ -447,7 +474,60 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				cursor.moveToNext();
 			}
 		}
+		cursor.close();
 		return id;
+	}
+	
+	public void addAllActivityHours(List<String[]> hours){
+		Iterator<String[]> iterator = hours.iterator();
+		Integer f_id = null;
+		Integer a_id = null;
+		String startHours = null;
+		String endHours = null;
+		Integer i = 0;
+		
+		while(iterator.hasNext()){
+			String[] fields = iterator.next();
+
+			f_id = getFacilityID(fields[0]);
+			a_id = getActivityID(fields[2]);
+			startHours = fields[3];
+			endHours = fields[4];
+
+			addActivityHours(f_id, a_id, startHours, endHours);
+			i++;
+		}
+	}
+	
+	public void addActivityHours(Integer f_id, Integer a_id, String start, String end){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+				
+		values.put(F_ID, f_id);
+		values.put(A_ID, a_id);
+		values.put(S_HOURS, start);
+		values.put(E_HOURS, end);
+		
+		db.insert(FAC_ACT_TABLE, null, values);
+		db.close();
+	}
+	
+	public ArrayList<Integer> getAllProvidingFacilities(){
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<Integer> listOfFacs = new ArrayList<Integer>();
+		
+		String selectQuery = "Select Distinct Facility_ID From " + FAC_ACT_TABLE;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		
+		if(cursor != null){
+		cursor.moveToFirst();
+			while(cursor.isAfterLast() != true){
+				listOfFacs.add(cursor.getInt(0));
+				cursor.moveToNext();
+			}//end of while
+		}//end of if
+		return listOfFacs;
 	}
 	
 	/**
@@ -456,41 +536,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	/**
 	 * Activity queries 
 	 */
-	
 	//Get all the activities in the database
-	public ArrayList<Activity> getActivities(){
+	public void getActivities(){
 		activities = getAllActivities();
-		
-		
-		return activities;
 	}
 
 	//get all the activities that a particular facility offers
-	public ArrayList<Activity> getActivities(Facility facility){
-		
-		return activities;
+	public void getActivities(Facility facility){
+
 	}
 	
 	/**
 	 * Sub_Activity queries
 	 */
 	//get all the sub activities for the inputed database
-	public ArrayList<SubActivity> getSubActivities(Activity activity){
+	public void getSubActivities(Activity activity){
 		subActivities = getAllSubActivities();
-		return subActivities;
 	}
 	
 	/**
 	 * Facility queries
 	 */
 	//Get all the facilities in the database
-	public ArrayList<Facility> getFacilities(){
+	public void getFacilities(){
 		facilities = getAllFacilities();
-		return facilities;
 	}
 	//Get all facilities that support a particular activity
-	public ArrayList<Facility> getFacilities(Activity activity){
-	
-		return facilities;
+	public void getFacilities(Activity activity){
+
+	}
+	//Get all facilities that support a particular activity
+	public void getFacilities(SubActivity subActivity){
+
 	}
 }//end of class

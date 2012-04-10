@@ -57,7 +57,7 @@ public class ReadFileManager {
 		try {
 			br.readLine();
 			while( (line = br.readLine()) != null){
-			fields = line.split(",", 4);
+			fields = line.split(",", 5);
 			list.add(fields);
 			}
 		} catch (IOException e) {
@@ -74,7 +74,41 @@ public class ReadFileManager {
 		try {
 			br.readLine();
 			while( (line = br.readLine()) != null){
-			fields = line.split(",", 5);
+			fields = line.split(",", 6);
+			list.add(fields);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}//end of ReadFileFromPorject
+	
+	public List<String[]> ReadFacSuperActFile(int fileName, Context context){
+		String line = null;
+		String fields[] = null;
+		List<String[]> list = new ArrayList<String[]>();
+		BufferedReader br = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(fileName)));
+		try {
+			br.readLine();
+			while( (line = br.readLine()) != null){
+			fields = line.split(",", 1);
+			list.add(fields);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}//end of ReadFileFromPorject
+	
+	public List<String[]> ReadFacTypeFile(int fileName, Context context){
+		String line = null;
+		String fields[] = null;
+		List<String[]> list = new ArrayList<String[]>();
+		BufferedReader br = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(fileName)));
+		try {
+			br.readLine();
+			while( (line = br.readLine()) != null){
+			fields = line.split(",", 2);
 			list.add(fields);
 			}
 		} catch (IOException e) {

@@ -18,6 +18,8 @@ public class GetDirectEdApplication extends Application {
 	
 	private void setupDatabase(Context context) {
 		database = new DatabaseHandler(context);
+		//TODO TEMP, need to remove asap
+		
 	}
 
 	static DatabaseHandler getDatabase() {
