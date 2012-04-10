@@ -49,6 +49,54 @@
             <intent-filter>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AllFacilityActivity"
+            android:label="@string/app_name"  >
+            <intent-filter>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DayEventsActivity"
+            android:label="@string/app_name"  >
+            <intent-filter>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".EventDetailsActivity"
+            android:label="@string/app_name"  >
+            <intent-filter>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".GetDirectEdApplicationActivity"
+            android:label="@string/app_name"  >
+            <intent-filter>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MinFacilityActivity"
+            android:label="@string/app_name"  >
+            <intent-filter>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MonthEventsActivity"
+            android:label="@string/app_name"  >
+            <intent-filter>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SubActivitiesActivity"
+            android:label="@string/app_name"  >
+            <intent-filter>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".WeekEventsActivity"
+            android:label="@string/app_name"  >
+            <intent-filter>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
