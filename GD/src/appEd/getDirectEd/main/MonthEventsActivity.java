@@ -9,26 +9,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import appEd.getDirectEd.database.DatabaseHandler;
 
 public class MonthEventsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.events_view);
+        setContentView(R.layout.month_event_view);
         ListView eventView = (ListView) findViewById(R.id.listView1);
-        String[] events = {};
-        ArrayList<String> eventList=new ArrayList<String>();
-      
-
-       
-       if(eventList != null){
-           eventView.setVisibility(View.VISIBLE);
-           events=(String[])eventList.toArray(new String[0]);
-           ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                   android.R.layout.simple_list_item_1, android.R.id.text1, events);
-           // Assign adapter to ListView
-           eventView.setAdapter(adapter);
-       }
+        final DatabaseHandler queryBox = GetDirectEdApplication.getDatabase();
+        
+        //   final ArrayList<appEd.getDirectEd.model.Event> eventList = queryBox.getWeekEvents();
+        //   eventView.setAdapter(new EventListString(this, eventList));
+           
        eventView.setOnItemClickListener(new OnItemClickListener() {
            public void onItemClick(AdapterView<?> parent, View view,
                int position, long id) {

@@ -12,35 +12,28 @@ import android.widget.AdapterView.OnItemClickListener;
 import appEd.getDirectEd.adapter.ActivityListString;
 import appEd.getDirectEd.database.DatabaseHandler;
 
-public class ActivitiesActivity extends Activity {
+public class SubActivitiesActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_view);
+        setContentView(R.layout.activity_subview);
         ListView activityView = (ListView) findViewById(R.id.listView1);
         final DatabaseHandler queryBox = GetDirectEdApplication.getDatabase();
         
-        final ArrayList<appEd.getDirectEd.model.Activity> actList = queryBox.getAllActivities();
-        activityView.setAdapter(new ActivityListString(this, actList));
+        final ArrayList<appEd.getDirectEd.model.Activity> subList = queryBox.getAllActivities();
+        activityView.setAdapter(new ActivityListString(this, subList));
         
         activityView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                 int position, long id) {
                
-            	if(actList.get(position).getSubType() == 1) {
-            		queryBox.getSubActivities(actList.get(position));
-            		Intent intent = new Intent(ActivitiesActivity.this, SubActivitiesActivity.class);
-                	startActivity(intent);
-            	}
-            	else {
-            		queryBox.getFacilities(actList.get(position));
-                	Intent intent = new Intent(ActivitiesActivity.this, FacilitiesActivity.class);
-                    startActivity(intent);
-            	}
+            	queryBox.getFacilities(subList.get(position));
+            	Intent intent = new Intent(SubActivitiesActivity.this, FacilitiesActivity.class);
+                startActivity(intent);
+            	
             }
          });
-
 	}
-}
 
+}

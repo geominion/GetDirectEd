@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import appEd.getDirectEd.database.DatabaseHandler;
 
 public class FavouritesActivity extends Activity {
 	@Override
@@ -17,17 +18,11 @@ public class FavouritesActivity extends Activity {
         
         setContentView(R.layout.favourites_view);
         ListView favouritesView = (ListView) findViewById(R.id.listView1);
-        String[] favourites = {};
-        ArrayList<String> favouritesList=new ArrayList<String>();
+        final DatabaseHandler queryBox = GetDirectEdApplication.getDatabase();
         
-        if(favouritesList != null){
-        	favouritesView.setVisibility(View.VISIBLE);
-        	favourites=(String[])favouritesList.toArray(new String[0]);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, android.R.id.text1, favourites);
-            // Assign adapter to ListView
-            favouritesView.setAdapter(adapter);
-        }
+         //  final ArrayList<appEd.getDirectEd.model.Facility> favList = queryBox.getFavoutiteFacilities();
+        //   favouritesView.setAdapter(new FacilityListString(this, favList));
+           
         favouritesView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                 int position, long id) {
