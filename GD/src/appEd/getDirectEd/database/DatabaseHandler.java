@@ -344,7 +344,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public ArrayList<Activity> getAllActivities(){
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<Activity> acts = new ArrayList<Activity>();
-		Activity act = new Activity();
 		
 		String selectQuery = "Select * From " + ACT_TABLE;
 		Cursor cursor = db.rawQuery(selectQuery, null);
@@ -352,6 +351,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		if(cursor != null){
 		cursor.moveToFirst();
 			while(cursor.isAfterLast() != true){
+				Activity act = new Activity();
 				act.setId(cursor.getInt(0));
 				act.setName(cursor.getString(1));
 				act.setSubType(cursor.getInt(2));
