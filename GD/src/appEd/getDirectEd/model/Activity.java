@@ -28,6 +28,13 @@ public class Activity {
 	public Activity() {
 		//TODO: any initialization required
 	}
+	public Activity(long id, String name, Integer subType, String description, String image) {
+		this.id = id;
+		this.name = name;
+		this.subType = subType;
+		this.description = description;
+		this.image = image;
+	}
 
 	/**
 	 * @return id

@@ -83,12 +83,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 
 	private static void dropAllTables(SQLiteDatabase db){
-		db.execSQL("DROP TABLE IF EXISTS " + FAC_TABLE);
-		db.execSQL("DROP TABLE IF EXISTS " + ACT_TABLE);
-		db.execSQL("DROP TABLE IF EXISTS " + SUB_ACT_TABLE);
-		db.execSQL("DROP TABLE IF EXISTS " + FAC_ACT_TABLE);
-		db.execSQL("DROP TABLE IF EXISTS " + FAC_TYPE_TABLE);
-		db.execSQL("DROP TABLE IF EXISTS " + SUPER_ACT_TABLE);		
+		db.execSQL("DROP TABLE IF EXISTS " + FAC_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + ACT_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + SUB_ACT_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + FAC_ACT_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + FAC_TYPE_TABLE + ";");
+		db.execSQL("DROP TABLE IF EXISTS " + SUPER_ACT_TABLE + ";");		
 	}
 	
 	private static void addFacilitiesTable(SQLiteDatabase db){
@@ -107,7 +107,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ PHONE + " Text, "
 				+ DESC + " BLOB, "
 				+ IMAGE + " Text "
-				+ ")";
+				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
 	private static void addActivitiesTable(SQLiteDatabase db){
@@ -120,7 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ SUB_TYPE + " Integer, "
 				+ DESC + " BLOB, "
 				+ IMAGE + " Text "
-				+ ")";
+				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
 	private static void addSubActivitiesTable(SQLiteDatabase db){
@@ -132,7 +132,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ SUB_ACT_NAME + " Text, "
 				+ DESC + " BLOB, "
 				+ SUPER_TYPE + " Integer "
-				+ ")";
+				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
 	private static void addFacActTable(SQLiteDatabase db){
@@ -144,7 +144,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ A_ID + " Integer, "
 				+ S_HOURS + " Text, "
 				+ E_HOURS + " Text "
-				+ ")";
+				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
 	private static void addFacTypeTable(SQLiteDatabase db){
@@ -155,7 +155,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ ID + " Integer, "
 				+ FAC_TYPE_NAME + " Text, "
 				+ DESC + " BLOB "
-				+ ")";
+				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
 	private static void addSuperActTable(SQLiteDatabase db){
@@ -166,7 +166,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ F_ID + " Integer, "
 				+ SUPER_ACT_ID + " Integer, "
 				+ DESC + " BLOB "
-				+ ")";
+				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
 	
@@ -200,7 +200,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 */
 	
 	public Cursor getCursorToAllTuples(String table_name){
-		String selectQuery = "Select * From " + table_name;
+		String selectQuery = "Select * From " + table_name + ";";
 		
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
@@ -261,7 +261,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		ArrayList<Facility> facs = new ArrayList<Facility>();
 		Facility fac = new Facility();
 		
-		String selectQuery = "Select * From " + FAC_TABLE;
+		String selectQuery = "Select * From " + FAC_TABLE + ";";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		
 		if(cursor != null){
@@ -287,7 +287,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	SQLiteDatabase db = this.getReadableDatabase();
 	Facility fac = new Facility();
 	
-	String selectQuery = "Select * From " + FAC_TABLE + " where id = " + id;
+	String selectQuery = "Select * From " + FAC_TABLE + " where id = " + id + ";";
 	Cursor cursor = db.rawQuery(selectQuery, null);
 
 	if (cursor != null){
@@ -345,7 +345,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<Activity> acts = new ArrayList<Activity>();
 		
-		String selectQuery = "Select * From " + ACT_TABLE;
+		String selectQuery = "Select * From " + ACT_TABLE + ";";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		
 		if(cursor != null){
@@ -403,7 +403,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		ArrayList<SubActivity> subActs = new ArrayList<SubActivity>();
 		SubActivity subAct = new SubActivity();
 		
-		String selectQuery = "Select * From " + SUB_ACT_TABLE;
+		String selectQuery = "Select * From " + SUB_ACT_TABLE + ";";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		
 		if(cursor != null){
@@ -434,7 +434,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 								+ FAC_TABLE + " Where Facility_Name = "
 								+ " \""
 								+ facilityName
-								+ "\"";
+								+ "\";";
 		
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		
@@ -463,7 +463,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 								+ SUB_ACT_TABLE + " Where Sub_Activity_Name = "
 								+ " \""
 								+ activityName
-								+ "\"";
+								+ "\";";
 		
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		
@@ -517,7 +517,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<Integer> listOfFacs = new ArrayList<Integer>();
 		
-		String selectQuery = "Select Distinct Facility_ID From " + FAC_ACT_TABLE;
+		String selectQuery = "Select Distinct Facility_ID From " + FAC_ACT_TABLE + ";";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		
 		if(cursor != null){

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 import appEd.getDirectEd.adapter.ActivityListString;
 import appEd.getDirectEd.database.DatabaseHandler;
 
@@ -22,6 +23,7 @@ public class ActivitiesActivity extends Activity {
         final DatabaseHandler queryBox = GetDirectEdApplication.getDatabase();
         
         final ArrayList<appEd.getDirectEd.model.Activity> actList = queryBox.getAllActivities();
+        
         activityView.setAdapter(new ActivityListString(this, actList));
         
         activityView.setOnItemClickListener(new OnItemClickListener() {
