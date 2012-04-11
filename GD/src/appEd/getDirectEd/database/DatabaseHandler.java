@@ -569,4 +569,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void getFacilities(SubActivity subActivity){
 
 	}
+	
+	public void databaseSetUp(Context context){
+        ReadFileManager rfm = new ReadFileManager();
+        
+
+        int facFile = appEd.getDirectEd.main.R.raw.facilities;
+        List<String[]> facList = null;
+        int ActHoursFile = appEd.getDirectEd.main.R.raw.rec_hours;
+        List<String[]> actHList = null;
+        int ActFile = appEd.getDirectEd.main.R.raw.activities;
+        List<String[]> actList = null;
+        int SubActFile = appEd.getDirectEd.main.R.raw.sub_activities;
+        List<String[]> subActList = null;
+        int facSuperAct = appEd.getDirectEd.main.R.raw.faci_super_act;
+        List<String[]> superActList = null;
+        int facType = appEd.getDirectEd.main.R.raw.fac_type;
+        List<String[]> facTypeList = null;
+        
+        facList = rfm.ReadFacFile(facFile, context);
+        actList = rfm.ReadActFile(ActFile, context);
+        subActList = rfm.ReadSubActFile(SubActFile, context);
+        actHList = rfm.ReadActHoursFile(ActHoursFile, context);
+        superActList = rfm.ReadFacSuperActFile(facSuperAct, context);
+        
+        //addAllFacilities(facList);
+        addAllActivities(actList);
+        //addAllSubActivities(subActList);
+        //addAllActivityHours(actHList);
+        System.out.println("ALL DONE"); 
+	}
+	
 }//end of class

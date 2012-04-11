@@ -18,6 +18,7 @@ public class GetDirectEdApplication extends Application {
 	
 	private void setupDatabase(Context context) {
 		database = new DatabaseHandler(context);
+		database.databaseSetUp(this);
 	}
 
 	static DatabaseHandler getDatabase() {
