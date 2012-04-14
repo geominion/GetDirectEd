@@ -31,7 +31,7 @@ import appEd.getDirectEd.database.DatabaseHandler;
 	        facilityView.setOnItemClickListener(new OnItemClickListener() {
 	            public void onItemClick(AdapterView<?> parent, View view,
 	                int position, long id) {
-	            	queryBox.setFacility(facList.get(position));
+	            	//queryBox.setFacility(facList.get(position));
             		Intent intent = new Intent(MinFacilityActivity.this, SubActivitiesActivity.class);
             		MinFacilityActivity.this.startActivity(intent);
 	            }
