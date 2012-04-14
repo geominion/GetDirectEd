@@ -3,6 +3,7 @@ package appEd.getDirectEd.main;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,13 +21,15 @@ public class DayEventsActivity extends Activity {
         ListView eventView = (ListView) findViewById(R.id.listView1);
         final DatabaseHandler queryBox = GetDirectEdApplication.getDatabase();
         
-     //   final ArrayList<appEd.getDirectEd.model.Event> eventList = queryBox.getDayEvents();
-     //   eventView.setAdapter(new EventListString(this, eventList));
+        //final ArrayList<appEd.getDirectEd.model.Event> eventList = queryBox.getDayEvents;
+       //eventView.setAdapter(new EventListString(this, eventList));
                 
         eventView.setOnItemClickListener(new OnItemClickListener() {
            public void onItemClick(AdapterView<?> parent, View view,
                int position, long id) {
-              
+        	//queryBox.setActivity(eventList.get(position));
+       		Intent intent = new Intent(DayEventsActivity.this, SubActivitiesActivity.class);
+       		DayEventsActivity.this.startActivity(intent);
            }
        });
     }

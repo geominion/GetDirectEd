@@ -4,6 +4,7 @@ package appEd.getDirectEd.main;
 	import java.util.ArrayList;
 
 	import android.app.Activity;
+import android.content.Intent;
 	import android.os.Bundle;
 	import android.view.View;
 	import android.widget.AdapterView;
@@ -30,7 +31,9 @@ import appEd.getDirectEd.database.DatabaseHandler;
 	        facilityView.setOnItemClickListener(new OnItemClickListener() {
 	            public void onItemClick(AdapterView<?> parent, View view,
 	                int position, long id) {
-	               
+	            	queryBox.setFacility(facList.get(position));
+            		Intent intent = new Intent(MinFacilityActivity.this, SubActivitiesActivity.class);
+            		MinFacilityActivity.this.startActivity(intent);
 	            }
 	         });
 		}
