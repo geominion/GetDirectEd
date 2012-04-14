@@ -30,7 +30,7 @@ public class SubActivitiesActivity extends Activity {
                
             	queryBox.getFacilities(subList.get(position));
             	Intent intent = new Intent(SubActivitiesActivity.this, FacilitiesActivity.class);
-                startActivity(intent);
+            	SubActivitiesActivity.this.startActivity(intent);
             	
             }
          });
