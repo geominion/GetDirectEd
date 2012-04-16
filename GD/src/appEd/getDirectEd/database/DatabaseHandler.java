@@ -601,4 +601,59 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         System.out.println("ALL DONE"); 
 	}
 	
+	/**
+	 * Josh - These are the method calls you will need for passing info from
+	 * 			one view and retrieving it in another
+	 */
+	
+	/*
+	 * Facilities
+	 */
+	//Get all facilities in the DB
+	public void setFacilityList(){
+		facilities = getAllFacilities();
+	}
+	//Get all the facilities that support the inputed activity
+	public void setFacilityList(Activity activity){
+		//TODO finish implementation by completing query
+		//facilities = getAllFacilities(activity);
+	}
+	//Get all the facilities that support the inputed SubActivity
+	public void setFacilityList(SubActivity subActivity){
+		//TODO finish implementation by completing query
+		//facilities = getAllFacilities(subActivity);
+	}
+	//return the list of facilities that was populated by one of the above
+	public ArrayList<Facility> getFacilityList(){
+		return facilities;
+	}
+	
+	/*
+	 * Activities 
+	 */
+	//Get all the activities offered by facilities in edmonton
+	public void setActivityList(){
+		activities = getAllActivities();
+	}
+	//Get all the activities that a facility has to offer
+	public void setActivityList(Facility facility){
+		//TODO finish query with fac_id and fac_act table 
+		//activities = getAllActivities(facility);
+	}
+	//return the list of activities that was populated by one of the above
+	public ArrayList<Activity> getActivityList(){
+		return activities;
+	}
+	
+	/*
+	 * SubActivities
+	 */
+	//Gets all the sub activities that the activity has
+	public void setSubActivityList(Activity activity){
+		subActivities = getAllSubActivities();
+	}
+	//return the list of sub activities that was populated by one of the above
+	public ArrayList<SubActivity> getSubActivityList(){
+		return subActivities;
+	}
 }//end of class
