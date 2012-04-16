@@ -259,7 +259,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public ArrayList<Facility> getAllFacilities(){
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<Facility> facs = new ArrayList<Facility>();
-		Facility fac = new Facility();
 		
 		String selectQuery = "Select * From " + FAC_TABLE + ";";
 		Cursor cursor = db.rawQuery(selectQuery, null);
@@ -267,6 +266,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		if(cursor != null){
 		cursor.moveToFirst();
 			while(cursor.isAfterLast() != true){
+				Facility fac = new Facility();
+
 				fac.setId(cursor.getInt(0));
 				fac.setName(cursor.getString(1));
 				fac.setLatitude(cursor.getFloat(2));
@@ -593,7 +594,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         actHList = rfm.ReadActHoursFile(ActHoursFile, context);
         superActList = rfm.ReadFacSuperActFile(facSuperAct, context);
         
-        //addAllFacilities(facList);
+        addAllFacilities(facList);
         addAllActivities(actList);
         //addAllSubActivities(subActList);
         //addAllActivityHours(actHList);
