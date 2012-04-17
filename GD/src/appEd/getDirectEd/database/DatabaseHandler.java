@@ -256,6 +256,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close();
 	}
 	
+	public void addAllFacilityTypes(List<String[]> facTypes){
+		Iterator<String[]> iterator = facTypes.iterator();
+		
+		while(iterator.hasNext()){
+			String[] entry = iterator.next();
+			addFacilityType(entry);
+		}//end of while
+	}
+	
+	public void addFacilityType(String[] entry){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		
+		values.put(ID, entry[0]);
+		values.put(FAC_TYPE_NAME, entry[1]);
+		values.put(DESC, entry[2]);
+		
+		db.insert(FAC_TYPE_TABLE, null, values);
+		db.close();
+	}
+	
 	public ArrayList<Facility> getAllFacilities(){
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<Facility> facs = new ArrayList<Facility>();
@@ -749,12 +771,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         subActList = rfm.ReadSubActFile(SubActFile, context);
         actHList = rfm.ReadActHoursFile(ActHoursFile, context);
         superActList = rfm.ReadFacSuperActFile(facSuperAct, context);
+        facTypeList = rfm.ReadFacTypeFile(facType, context);
         
         addAllFacilities(facList);
         addAllActivities(actList);
         addAllSubActivities(subActList);
         //addAllActivityHours(actHList);
         addAllRelations(superActList);
+        addAllFacilityTypes(facTypeList);
         System.out.println("ALL DONE"); 
 	}
 	
@@ -773,7 +797,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//Get all the facilities that support the inputed activity
 	public void setFacilities(Activity activity){
 		//TODO finish implementation by completing query
-		//facilities = getAllFacilities(activity);
+		facilities = getAllFacilities(activity);
 	}
 	//return the list of facilities that was populated by one of the above
 	public ArrayList<Facility> getFacilities(){
