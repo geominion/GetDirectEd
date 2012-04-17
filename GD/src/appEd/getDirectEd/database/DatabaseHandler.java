@@ -98,7 +98,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		//TODO Remove this and instead check to see if a DB file exists
 		context.deleteDatabase(DATABASE_NAME);
-	}
+	}//end of DatabaseHandler
 
 	/**
 	 * dropAllTables
@@ -113,7 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + FAC_ACT_TABLE + ";");
 		db.execSQL("DROP TABLE IF EXISTS " + FAC_TYPE_TABLE + ";");
 		db.execSQL("DROP TABLE IF EXISTS " + SUPER_ACT_TABLE + ";");		
-	}
+	}//end of dropAllTables
 	
 	/**
 	 * addFacilitiesTable
@@ -140,7 +140,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ IMAGE + " Text "
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
-	}
+	}//end of allFacilitiesTable
 	
 	/**
 	 * addActivitiesTable
@@ -161,7 +161,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ IMAGE + " Text "
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
-	}
+	}//end of addActivitiesTable
 	
 	/**
 	 * addSubActivities Table
@@ -181,7 +181,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ SUPER_TYPE + " Integer "
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
-	}
+	}//end of addSubActivitiesTable
 	
 	/**
 	 * addFacActTable
@@ -202,7 +202,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ E_HOURS + " Text "
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
-	}
+	}//end of addFacActTable
 	
 	/**
 	 * addFacTypeTable
@@ -221,7 +221,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ DESC + " BLOB "
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
-	}
+	}//end of addFacTypeTable
 	
 	/**
 	 * addSuperActTable
@@ -240,7 +240,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ DESC + " BLOB "
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
-	}
+	}//end of addSuperActTable
 	
 	/**
 	 * onCreate
@@ -257,7 +257,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		addFacTypeTable(db);
 		addSubActivitiesTable(db);
 		addSuperActTable(db);
-	}
+	}//end of onCreate
 
 	/**
 	 * onUpgrade
@@ -273,26 +273,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		dropAllTables(db);
 		onCreate(db);
-	}
-	
-//	public Cursor getCursorToAllTuples(String table_name){
-//		String selectQuery = "Select * From " + table_name + ";";
-//		
-//		SQLiteDatabase db = this.getReadableDatabase();
-//		Cursor cursor = db.rawQuery(selectQuery, null);
-//		
-//		return cursor;
-//	}
-//	
-//	public void removeAllTuples(String table_name){
-//	SQLiteDatabase db = this.getReadableDatabase();
-//	db.delete(table_name, null, null);
-//	}
+	}//end of onUpgrade
 	
 	/**
 	 * Facility CRUD ops
 	 */
 	
+	/**
+	 * addAllFacilities
+	 * 
+	 * Takes a list of facilities from .csv files and places them into the DB
+	 * @param facs
+	 */
 	public void addAllFacilities(List<String[]> facs){
 		Facility fac = new Facility();
 		Iterator<String[]> iterator = facs.iterator();
@@ -310,9 +302,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	        fac.setImage("Default_Image.jpg");
 	     
 	        addFacility(fac);
-		}
-	}
+		}//end of while
+	}//end of addAllFacilities
 	
+	/**
+	 * addFacility
+	 * 
+	 * Takes a populated facility object and places its information
+	 * into a tuple in the DB
+	 * @param fac
+	 */
 	public void addFacility(Facility fac){
 		SQLiteDatabase db = this.getWritableDatabase();
 		
@@ -330,8 +329,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		db.insert(FAC_TABLE, null, values);
 		db.close();
-	}
+	}//end of addFacility
 	
+	/**
+	 * allAllFacilityTypes
+	 * 
+	 * Takes a list of facilities and their types and adds them to the DB
+	 * @param facTypes
+	 */
 	public void addAllFacilityTypes(List<String[]> facTypes){
 		Iterator<String[]> iterator = facTypes.iterator();
 		
@@ -339,8 +344,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			String[] entry = iterator.next();
 			addFacilityType(entry);
 		}//end of while
-	}
+	}//end of addAllFacilityTypes
 	
+	/**
+	 * allFacilityType
+	 * 
+	 * Takes the info for one facility and its type and added it to the DB
+	 * @param entry
+	 */
 	public void addFacilityType(String[] entry){
 		SQLiteDatabase db = this.getWritableDatabase();
 		
@@ -352,8 +363,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		db.insert(FAC_TYPE_TABLE, null, values);
 		db.close();
-	}
+	}//end of addFacilityType
 	
+	/**
+	 * getAllFacilities
+	 * 
+	 * Searches and returns all the facilities in the database
+	 * @return
+	 */
 	public ArrayList<Facility> getAllFacilities(){
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<Facility> facs = new ArrayList<Facility>();
@@ -380,15 +397,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			}//end of while
 		}//end of if
 		return facs;
-	}
+	}//end of getAllFacilities
 	
+	/**
+	 * getAllFacilities
+	 * 
+	 * Searches and returns all the facilities in the database that
+	 * support the sibmitted activity
+	 * @param activity
+	 * @return
+	 */
 	public ArrayList<Facility> getAllFacilities(Activity activity){
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<Facility> facs = new ArrayList<Facility>();
 		ArrayList<Long> facilityIds = new ArrayList<Long>();
 		Long activityId = activity.getId();
 				
-		//TODO use the fac-act table to complete this query
 		String selectQuery = "Select * From " 
 							+ SUPER_ACT_TABLE
 							+ " Where "
@@ -447,32 +471,52 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				}//end of while
 			}//end of if
 			cursor.close();
-		}
+		}//end of while
 		return facs;
-	}
+	}//end of getAllFacilities
 	
+	/**
+	 * getFacility
+	 * 
+	 * Searches and returns the facility with the matching ID
+	 * @param id
+	 * @return
+	 */
 	public Facility getFacility(int id){
-	SQLiteDatabase db = this.getReadableDatabase();
-	Facility fac = new Facility();
+		SQLiteDatabase db = this.getReadableDatabase();
+		Facility fac = new Facility();
+		
+		String selectQuery = "Select * From " + FAC_TABLE + " where id = " + id + ";";
+		Cursor cursor = db.rawQuery(selectQuery, null);
 	
-	String selectQuery = "Select * From " + FAC_TABLE + " where id = " + id + ";";
-	Cursor cursor = db.rawQuery(selectQuery, null);
+		if (cursor != null){
+			cursor.moveToFirst();
+			fac.setId(cursor.getInt(0));
+			fac.setName(cursor.getString(1));
+			fac.setLatitude(cursor.getFloat(2));
+			fac.setLongitude(cursor.getFloat(3));
+			fac.setFacType(cursor.getInt(4));
+			fac.setAddress(cursor.getString(5));
+			fac.setPhone(cursor.getString(6));
+			fac.setDescription(cursor.getString(7));
+			fac.setImage(cursor.getString(8));
+			}//end of if
+		return fac;
+	}//end of getFacility
 
-	if (cursor != null){
-		cursor.moveToFirst();
-		fac.setId(cursor.getInt(0));
-		fac.setName(cursor.getString(1));
-		fac.setLatitude(cursor.getFloat(2));
-		fac.setLongitude(cursor.getFloat(3));
-		fac.setFacType(cursor.getInt(4));
-		fac.setAddress(cursor.getString(5));
-		fac.setPhone(cursor.getString(6));
-		fac.setDescription(cursor.getString(7));
-		fac.setImage(cursor.getString(8));
-		}//end of if
-	return fac;
-	}
-
+	/**
+	 * End of Facility CRUD ops
+	 */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Activity CRUD ops
 	 */
@@ -491,8 +535,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			act.setDescription(actList[4]);
 	        
 	        addActivity(act);
-		}
-	}
+		}//end of while
+	}//end of addAllActivities
 	
 	public void addActivity(Activity act){
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -507,7 +551,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		db.insert(ACT_TABLE, null, values);
 		db.close();
-	}
+	}//end of addActivity
 	
 	public ArrayList<Activity> getAllActivities(){
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -530,7 +574,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			}//end of while
 		}//end of if
 		return acts;
-	}
+	}//end of getAllActivities
 	
 	public ArrayList<Activity> getAllActivities(Facility facility){
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -591,9 +635,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				}//end of while
 			}//end of if
 			cursor.close();
-		}
+		}//end of while
 		return acts;
-	}
+	}//end of getAllActivities
+	
+	/**
+	 * End of Activity CRUD ops
+	 */
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * SubActivity CRUD ops
@@ -612,8 +668,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			subAct.setDescription(actList[3]);
 
 	        addSubActivity(subAct);
-		}
-	}
+		}//end of while
+	}//end of addAllSubActivities
 	
 	public void addSubActivity(SubActivity subAct){
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -627,7 +683,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		db.insert(SUB_ACT_TABLE, null, values);
 		db.close();
-	}
+	}//end of addSubActivity
 	
 	public ArrayList<SubActivity> getAllSubActivities(){
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -649,7 +705,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			}//end of while
 		}//end of if
 		return subActs;
-	}
+	}//end of getAllSubActivities
 	
 	public ArrayList<SubActivity> getAllSubActivities(Activity activity){
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -681,7 +737,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			}//end of while
 		}//end of if
 		return subActs;
-	}
+	}//end of getAllSubActivities
 	
 	/**
 	 * Hours CRUD ops
@@ -706,11 +762,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			while(cursor.isAfterLast() != true){
 				id = cursor.getInt(0);
 				cursor.moveToNext();
-			}
-		}
+			}//end of while
+		}//end of if
 		cursor.close();
 		return id;
-	}
+	}//end of getFacilityID
 	
 	public Integer getActivityID(String activityName){
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -735,11 +791,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			while(cursor.isAfterLast() != true){
 				id = cursor.getInt(0);
 				cursor.moveToNext();
-			}
-		}
+			}//end of while
+		}//end of if
 		cursor.close();
 		return id;
-	}
+	}//end of getActivtyID
 	
 	public void addAllActivityHours(List<String[]> hours){
 		Iterator<String[]> iterator = hours.iterator();
@@ -759,8 +815,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 			addActivityHours(f_id, a_id, startHours, endHours);
 			i++;
-		}
-	}
+		}//end of while
+	}//end of addAllActivityHours
 	
 	public void addActivityHours(Integer f_id, Integer a_id, String start, String end){
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -774,7 +830,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		db.insert(FAC_ACT_TABLE, null, values);
 		db.close();
-	}
+	}//end of addActivityHours
 	
 	public ArrayList<Integer> getAllProvidingFacilities(){
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -791,7 +847,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			}//end of while
 		}//end of if
 		return listOfFacs;
-	}
+	}//end of getAllProvidingFacilities
 	
 	/**
 	 * Adding relation table for facilities and activities 
@@ -804,8 +860,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		while(iterator.hasNext()){
 			String[] relEntry = iterator.next();
 	        addRelation(relEntry);
-		}
-	}
+		}//end of while
+	}//end of addAllRelations
 	
 	public void addRelation(String[] relEntry){
 		System.out.println("In AddRelation");
@@ -819,7 +875,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		db.insert(SUPER_ACT_TABLE, null, values);
 		db.close();
-	}
+	}//end of addRelation
 	
 	/**
 	 * SQL Ops
@@ -828,7 +884,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void databaseSetUp(Context context){
         ReadFileManager rfm = new ReadFileManager();
         
-
         int facFile = appEd.getDirectEd.main.R.raw.facilities;
         List<String[]> facList = null;
         int ActHoursFile = appEd.getDirectEd.main.R.raw.rec_hours;
@@ -860,12 +915,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         addAllRelations(superActList);
         addAllFacilityTypes(facTypeList);
         System.out.println("ALL DONE"); 
-	}
-	
-	/**
-	 * Josh - These are the method calls you will need for passing info from
-	 * 			one view and retrieving it in another
-	 */
+	}//end of databaseSetUp
 	
 	/*
 	 * Facilities
@@ -873,16 +923,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//Get all facilities in the DB
 	public void setFacilities(){
 		facilities = getAllFacilities();
-	}
+	}//end of setFacilities
+	
 	//Get all the facilities that support the inputed activity
 	public void setFacilities(Activity activity){
 		//TODO finish implementation by completing query
 		facilities = getAllFacilities(activity);
-	}
+	}//end of setFacilities
+	
 	//return the list of facilities that was populated by one of the above
 	public ArrayList<Facility> getFacilities(){
 		return facilities;
-	}
+	}//end of setFacilities
 	
 	/*
 	 * Activities 
@@ -890,16 +942,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//Get all the activities offered by facilities in edmonton
 	public void setActivities(){
 		activities = getAllActivities();
-	}
+	}//end of getActivities
+	
 	//Get all the activities that a facility has to offer
 	public void setActivities(Facility facility){
 		//TODO finish query with fac_id and fac_act table 
 		activities = getAllActivities(facility);
-	}
+	}//end of getActivities
+	
 	//return the list of activities that was populated by one of the above
 	public ArrayList<Activity> getActivities(){
 		return activities;
-	}
+	}//end of getActivities
 	
 	/*
 	 * SubActivities
@@ -907,9 +961,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//Gets all the sub activities that the activity has
 	public void setSubActivities(Activity activity){
 		subActivities = getAllSubActivities();
-	}
+	}//end of getSubActivities
+	
 	//return the list of sub activities that was populated by one of the above
 	public ArrayList<SubActivity> getSubActivities(){
 		return subActivities;
-	}
+	}//end of getSubActivities
 }//end of class
