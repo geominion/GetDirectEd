@@ -754,7 +754,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//Get all the activities that a facility has to offer
 	public void setActivities(Facility facility){
 		//TODO finish query with fac_id and fac_act table 
-		//activities = getAllActivities(facility);
+		activities = getAllActivities(facility);
 	}
 	//return the list of activities that was populated by one of the above
 	public ArrayList<Activity> getActivities(){
