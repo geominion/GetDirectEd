@@ -752,7 +752,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         
         addAllFacilities(facList);
         addAllActivities(actList);
-        //addAllSubActivities(subActList);
+        addAllSubActivities(subActList);
         //addAllActivityHours(actHList);
         addAllRelations(superActList);
         System.out.println("ALL DONE"); 
