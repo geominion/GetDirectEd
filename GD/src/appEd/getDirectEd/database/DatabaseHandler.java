@@ -766,12 +766,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         int facType = appEd.getDirectEd.main.R.raw.fac_type;
         List<String[]> facTypeList = null;
         
-        facList = rfm.ReadFacFile(facFile, context);
-        actList = rfm.ReadActFile(ActFile, context);
-        subActList = rfm.ReadSubActFile(SubActFile, context);
-        actHList = rfm.ReadActHoursFile(ActHoursFile, context);
-        superActList = rfm.ReadFacSuperActFile(facSuperAct, context);
-        facTypeList = rfm.ReadFacTypeFile(facType, context);
+        System.out.println("*** Starting Read File test ***");
+        
+        facList = rfm.ReadFile(facFile, context, 8);
+        actList = rfm.ReadFile(ActFile, context, 5);
+        subActList = rfm.ReadFile(SubActFile, context, 5);
+        actHList = rfm.ReadFile(ActHoursFile, context, 6);
+        superActList = rfm.ReadFile(facSuperAct, context, 2);
+        facTypeList = rfm.ReadFile(facType, context, 3);
+        
+        System.out.println("*** Ending Read File test ***");
         
         addAllFacilities(facList);
         addAllActivities(actList);

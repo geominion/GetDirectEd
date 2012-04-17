@@ -9,30 +9,30 @@ import java.util.List;
 import android.content.Context;
 
 public class ReadFileManager {
- 
+	 
 	//constructor
+	/**
+	 * ReadFileManager
+	 * 
+	 * Default constructor, nothing to declare
+	 */
 	public ReadFileManager(){
 		
 	}//end of constructor
-   
-	public List<String[]> ReadFacFile(int fileName, Context context){
-		String line = null;
-		String fields[] = null;
-		List<String[]> list = new ArrayList<String[]>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(fileName)));
-		try {
-			br.readLine();
-			while( (line = br.readLine()) != null){
-			fields = line.split(",", 8);
-			list.add(fields);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}//end of ReadFileFromPorject
 
-	public List<String[]> ReadActFile(int fileName, Context context){
+	/**	
+	 * ReadFile
+	 * 
+	 * Takes a file name, context and a number and reads in the file.
+	 * Splitting it the number of times designated by splitNumber 
+	 * This method skips the first line as to not read in the column names in the .csv file
+	 * 
+	 * @param fileName
+	 * @param context
+	 * @param splitNumber
+	 * @return
+	 */
+	public List<String[]> ReadFile(int fileName, Context context, Integer splitNumber){
 		String line = null;
 		String fields[] = null;
 		List<String[]> list = new ArrayList<String[]>();
@@ -40,81 +40,12 @@ public class ReadFileManager {
 		try {
 			br.readLine();
 			while( (line = br.readLine()) != null){
-			fields = line.split(",", 5);
+			fields = line.split(",", splitNumber);
 			list.add(fields);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return list;
-	}
-	
-	public List<String[]> ReadSubActFile(int fileName, Context context){
-		String line = null;
-		String fields[] = null;
-		List<String[]> list = new ArrayList<String[]>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(fileName)));
-		try {
-			br.readLine();
-			while( (line = br.readLine()) != null){
-			fields = line.split(",", 5);
-			list.add(fields);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-	
-	public List<String[]> ReadActHoursFile(int fileName, Context context){
-		String line = null;
-		String fields[] = null;
-		List<String[]> list = new ArrayList<String[]>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(fileName)));
-		try {
-			br.readLine();
-			while( (line = br.readLine()) != null){
-			fields = line.split(",", 6);
-			list.add(fields);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}//end of ReadFileFromPorject
-	
-	public List<String[]> ReadFacSuperActFile(int fileName, Context context){
-		String line = null;
-		String fields[] = null;
-		List<String[]> list = new ArrayList<String[]>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(fileName)));
-		try {
-			br.readLine();
-			while( (line = br.readLine()) != null){
-			fields = line.split(",", 2);
-			list.add(fields);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}//end of ReadFileFromPorject
-	
-	public List<String[]> ReadFacTypeFile(int fileName, Context context){
-		String line = null;
-		String fields[] = null;
-		List<String[]> list = new ArrayList<String[]>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(fileName)));
-		try {
-			br.readLine();
-			while( (line = br.readLine()) != null){
-			fields = line.split(",", 2);
-			list.add(fields);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}//end of ReadFileFromPorject
-
-}//end of class	
+	}//end of ReadFile
+}//end of class		
