@@ -30,8 +30,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public static final String FAC_TYPE_TABLE = "Facility_Type";
 	public static final String SUPER_ACT_TABLE = "Fac_Super_Act_Table";
 
-	
-	// Columns for Facilities_Table
+	/*
+	 * Columns for Facilities_Table
+	 */
 	private static final String ID = "id";
 	private static final String FAC_NAME = "Facility_Name";
 	private static final String LAT = "Latitude";
@@ -42,46 +43,69 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String DESC = "Description";
 	private static final String IMAGE  = "Image";
 	
-	// Columns for Activities_Table
-	//ID
+	/*
+	 * Columns for Activities_Table
+	 */
+//	private static final String ID = "id";
 	private static final String ACT_NAME = "Activity_Name";
 	private static final String SUB_TYPE = "Sub_Activity";
-	//Description
-	//image
+//	private static final String DESC = "Description";
+//	private static final String IMAGE  = "Image";
 	
-	//Columns for Sub_Activities_Table
-	//ID
+	/*
+	 * Columns for Sub_Activities_Table
+	 */
+//	private static final String ID = "id";
 	private static final String SUB_ACT_NAME = "Sub_Activity_Name";
-	//description
+//	private static final String DESC = "Description";
 	private static final String SUPER_TYPE = "Super_Activity";
 	
-	//Columns for Facility_Type_Table
-	//ID
+	/*
+	 * Columns for Facility_Type_Table
+	 */
+//	private static final String ID = "id";
 	private static final String FAC_TYPE_NAME = "Type_of_Facility";
-	//desc
+//	private static final String DESC = "Description";
 	
-	//Columns for Facility_Activity_Table
+	/*
+	 * Columns for Facility_Activity_Table
+	 */
 	private static final String F_ID = "Facility_ID";
 	private static final String A_ID = "Sub_Activity_ID";
 	private static final String S_HOURS = "Start_Time";
 	private static final String E_HOURS = "End_Time";
 	
-	//Columns for Facility_Super_Activity_Table
-	//F_ID
+	/*
+	 * Columns for Facility_Super_Activity_Table
+	 */
+//	private static final String F_ID = "Facility_ID";
 	private static final String SUPER_ACT_ID = "Super_Activity_ID";
-	//DESC
+//	private static final String DESC = "Description";
 	
-	//Private structures
+	//Private structures for holding and returning data between views
 	private ArrayList<Activity> activities = new ArrayList<Activity>();
 	private ArrayList<SubActivity> subActivities = new ArrayList<SubActivity>();
 	private ArrayList<Facility> facilities = new ArrayList<Facility>();
 
 	// Constructor
+	/**
+	 * DatabaseHandler
+	 * 
+	 * Default constructor, sets up based on the super and removes the old DB whenever called
+	 * @param context
+	 */
 	public DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		//TODO Remove this and instead check to see if a DB file exists
 		context.deleteDatabase(DATABASE_NAME);
 	}
 
+	/**
+	 * dropAllTables
+	 * 
+	 * Removes all the tables in the DB if they exist
+	 * @param db
+	 */
 	private static void dropAllTables(SQLiteDatabase db){
 		db.execSQL("DROP TABLE IF EXISTS " + FAC_TABLE + ";");
 		db.execSQL("DROP TABLE IF EXISTS " + ACT_TABLE + ";");
@@ -91,6 +115,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + SUPER_ACT_TABLE + ";");		
 	}
 	
+	/**
+	 * addFacilitiesTable
+	 * 
+	 * Adds the facilities table to the database
+	 * Table is empty and ready to be populated with data 
+	 * @param db
+	 */
 	private static void addFacilitiesTable(SQLiteDatabase db){
 		//+ KEY_ID + " Integer Primary key, "
 		String CREAT_TABLE_STATEMENT = 
@@ -110,6 +141,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
+	
+	/**
+	 * addActivitiesTable
+	 * 
+	 * Adds the activities table to the database
+	 * Table is empty and ready to be populated with data 
+	 * @param db
+	 */
 	private static void addActivitiesTable(SQLiteDatabase db){
 		String CREAT_TABLE_STATEMENT = 
 				"Create table "
@@ -123,6 +162,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
+	
+	/**
+	 * addSubActivities Table
+	 * 
+	 * Adds the sub-activities table to the database
+	 * Table is empty and ready to be populated with data 
+	 * @param db
+	 */
 	private static void addSubActivitiesTable(SQLiteDatabase db){
 		String CREAT_TABLE_STATEMENT = 
 				"Create table "
@@ -135,6 +182,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
+	
+	/**
+	 * addFacActTable
+	 * 
+	 * Adds the facilities-activities relation table to the database
+	 * Table is empty and ready to be populated with data 
+	 * @param db
+	 */
+	//TODO add the hours into this table to make those lookups quick and efficient
 	private static void addFacActTable(SQLiteDatabase db){
 		String CREAT_TABLE_STATEMENT = 
 				"Create table "
@@ -147,6 +203,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
+	
+	/**
+	 * addFacTypeTable
+	 * 
+	 * Adds the facility type table to the database
+	 * Table is empty and ready to be populated with data 
+	 * @param db
+	 */
 	private static void addFacTypeTable(SQLiteDatabase db){
 		String CREAT_TABLE_STATEMENT = 
 				"Create table "
@@ -158,6 +222,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ ");";
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
+	
+	/**
+	 * addSuperActTable
+	 * 
+	 * Adds the activities-sub-activities table to the database
+	 * Table is empty and ready to be populated with data 
+	 * @param db
+	 */
 	private static void addSuperActTable(SQLiteDatabase db){
 		String CREAT_TABLE_STATEMENT = 
 				"Create table "
@@ -170,15 +242,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL(CREAT_TABLE_STATEMENT);
 	}
 	
-
-	
-	// Create tables
+	/**
+	 * onCreate
+	 * 
+	 * This is an override of an abstract DB method
+	 * It creates all the tables in the database by the methods above
+	 * @param db
+	 */
 	@Override
-	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
-		System.out.println("******** DO I EVER GET CALLED ***********");
-		//dropAllTables(db);
-		
+	public void onCreate(SQLiteDatabase db) {		
 		addFacilitiesTable(db);
 		addActivitiesTable(db);
 		addFacActTable(db);
@@ -187,31 +259,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		addSuperActTable(db);
 	}
 
-	// Upgrading database
+	/**
+	 * onUpgrade
+	 * 
+	 * This is an override of an abstract DB method
+	 * If the DB ever needs to be upgraded to a new version all the tables
+	 * are dropped and empty ones are created again
+	 * @param db
+	 * @param oldVersion
+	 * @param newVersion
+	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		dropAllTables(db);
-		// Create table again
 		onCreate(db);
 	}
 	
-	/**
-	 * CRUD operations
-	 */
-	
-	public Cursor getCursorToAllTuples(String table_name){
-		String selectQuery = "Select * From " + table_name + ";";
-		
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(selectQuery, null);
-		
-		return cursor;
-	}
-	
-	public void removeAllTuples(String table_name){
-	SQLiteDatabase db = this.getReadableDatabase();
-	db.delete(table_name, null, null);
-	}
+//	public Cursor getCursorToAllTuples(String table_name){
+//		String selectQuery = "Select * From " + table_name + ";";
+//		
+//		SQLiteDatabase db = this.getReadableDatabase();
+//		Cursor cursor = db.rawQuery(selectQuery, null);
+//		
+//		return cursor;
+//	}
+//	
+//	public void removeAllTuples(String table_name){
+//	SQLiteDatabase db = this.getReadableDatabase();
+//	db.delete(table_name, null, null);
+//	}
 	
 	/**
 	 * Facility CRUD ops

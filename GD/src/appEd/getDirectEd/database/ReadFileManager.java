@@ -26,7 +26,6 @@ public class ReadFileManager {
 	 * Takes a file name, context and a number and reads in the file.
 	 * Splitting it the number of times designated by splitNumber 
 	 * This method skips the first line as to not read in the column names in the .csv file
-	 * 
 	 * @param fileName
 	 * @param context
 	 * @param splitNumber
