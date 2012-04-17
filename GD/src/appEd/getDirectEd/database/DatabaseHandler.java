@@ -430,68 +430,65 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return acts;
 	}
 	
-//	SELECT Customers.FirstName, Customers.LastName, SUM(Sales.SaleAmount) AS SalesPerCustomer
-//	FROM Customers, Sales
-//	WHERE Customers.CustomerID = Sales.CustomerID
-//	GROUP BY Customers.FirstName, Customers.LastName 
 	public ArrayList<Activity> getAllActivities(Facility facility){
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<Activity> acts = new ArrayList<Activity>();
+		ArrayList<Long> activityIds = new ArrayList<Long>();
+		Long facId = facility.getId();
 		
-		//TODO get a join with fac_act table to finish this query
-		//again might be able to use fac_act table to complete this query
-		//look up fac ID and return all activities that correspond to it
-		String selectQuery = "Select * From " + ACT_TABLE + ";";
+		String selectQuery = "Select * From " 
+								+ SUPER_ACT_TABLE 
+								+ " Where "
+								+ SUPER_ACT_TABLE
+								+ "."
+								+ F_ID 
+								+ "=" 
+								+ facId
+								+ ";";
+
 		Cursor cursor = db.rawQuery(selectQuery, null);
-		
-//		//TODO use the fac-act table to complete this query
-//		String selectQuery = "Select " 
-//							+ F_ID
-//							+ " From " 
-//							+ SUPER_ACT_TABLE
-//							+ " Where "
-//							+ SUPER_ACT_ID
-//							+ " = "
-//							+ activityID
-//							+ ";";
-//		String selectQuery = "Select * "
-//							+ " From " 
-//							+ SUPER_ACT_TABLE
-//							+ ";";
-//		Cursor cursor1 = db.rawQuery(selectQuery, null);
-//
-//		
-//		if(cursor1 != null){
-//		cursor1.moveToFirst();
-//			while(cursor1.isAfterLast() != true){
-//				System.out.println(cursor1.getLong(0));
-//				cursor1.moveToNext();
-//		}//end of while
-//		}//end of if
-//		
-//		System.out.println(facilityIDs.length);
-//		for(i=0;i<facilityIDs.length;i++){
-//			System.out.println("** " + facilityIDs[i]);
-//		}
 		
 		if(cursor != null){
 		cursor.moveToFirst();
 			while(cursor.isAfterLast() != true){
-				Activity act = new Activity();
-				act.setId(cursor.getInt(0));
-				System.out.println(" *** " + cursor.getString(1));
-				act.setName(cursor.getString(1));
-				act.setSubType(cursor.getInt(2));
-				act.setDescription(cursor.getString(3));
-				act.setImage(cursor.getString(4));
-				acts.add(act);
+				System.out.println(cursor.getLong(0) +" "+ cursor.getLong(1));
+				activityIds.add(cursor.getLong(1));
 				cursor.moveToNext();
 			}//end of while
 		}//end of if
 		cursor.close();
+
+		Iterator<Long> iterator = activityIds.iterator();
 		
-		for(int i = 0; i<7;i++){
-			System.out.println("* " + acts.get(i).getName());
+		while(iterator.hasNext()){
+			Long actID = iterator.next();
+			selectQuery = "Select * From " 
+							+ ACT_TABLE 
+							+ " Where "
+							+ ACT_TABLE
+							+ "."
+							+ ID 
+							+ "=" 
+							+ actID
+							+ ";";
+			
+			cursor = db.rawQuery(selectQuery, null);
+			
+			if(cursor != null){
+			cursor.moveToFirst();
+				while(cursor.isAfterLast() != true){
+					Activity act = new Activity();
+					act.setId(cursor.getInt(0));
+					System.out.println(" *** " + cursor.getString(1));
+					act.setName(cursor.getString(1));
+					act.setSubType(cursor.getInt(2));
+					act.setDescription(cursor.getString(3));
+					act.setImage(cursor.getString(4));
+					acts.add(act);
+					cursor.moveToNext();
+				}//end of while
+			}//end of if
+			cursor.close();
 		}
 		return acts;
 	}
