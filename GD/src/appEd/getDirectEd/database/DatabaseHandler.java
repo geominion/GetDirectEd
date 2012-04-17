@@ -284,68 +284,72 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return facs;
 	}
 	
-//	SELECT Customers.FirstName, Customers.LastName, SUM(Sales.SaleAmount) AS SalesPerCustomer
-//	FROM Customers, Sales
-//	WHERE Customers.CustomerID = Sales.CustomerID
-//	GROUP BY Customers.FirstName, Customers.LastName 
-	@SuppressWarnings("null")
 	public ArrayList<Facility> getAllFacilities(Activity activity){
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<Facility> facs = new ArrayList<Facility>();
-		Long activityID = activity.getId();
-		String[] facilityIDs = null;
-		Integer i = 0;
+		ArrayList<Long> facilityIds = new ArrayList<Long>();
+		Long activityId = activity.getId();
 				
 		//TODO use the fac-act table to complete this query
-		String selectQuery = "Select " 
-							+ F_ID
-							+ " From " 
+		String selectQuery = "Select * From " 
 							+ SUPER_ACT_TABLE
 							+ " Where "
-							+ SUPER_ACT_ID
-							+ " = "
-							+ activityID
+							+ SUPER_ACT_TABLE
+							+ "."
+							+ A_ID 
+							+ "=" 
+							+ activityId
 							+ ";";
-//		String selectQuery = "Select * "
-//							+ " From " 
-//							+ SUPER_ACT_TABLE
-//							+ ";";
-		Cursor cursor1 = db.rawQuery(selectQuery, null);
 
+		Cursor cursor = db.rawQuery(selectQuery, null);
 		
-		if(cursor1 != null){
-		cursor1.moveToFirst();
-		System.out.println("THIS CURSOR HAS SOMETHING");
-			while(cursor1.isAfterLast() != true){
-//					System.out.println("THIS CURSOR HAS MORE");
-//					System.out.println(cursor1.getLong(0));
-					facilityIDs[0] = cursor1.getString(0);
-					cursor1.moveToNext();
+		if(cursor != null){
+		cursor.moveToFirst();
+			while(cursor.isAfterLast() != true){
+				System.out.println(cursor.getLong(0) +" "+ cursor.getLong(1));
+					facilityIds.add(cursor.getLong(0));
+					cursor.moveToNext();
 			}//end of while
 		}//end of if
+		cursor.close();
 		
-		selectQuery = "Select * From " + FAC_TABLE + ";";
-		Cursor cursor2 = db.rawQuery(selectQuery, null);
+		Iterator<Long> iterator = facilityIds.iterator();
 		
-		if(cursor2 != null){
-		cursor2.moveToFirst();
-			while(cursor2.isAfterLast() != true){
-				Facility fac = new Facility();
-				
-				fac.setId(cursor2.getInt(0));
-				fac.setName(cursor2.getString(1));
-				fac.setLatitude(cursor2.getFloat(2));
-				fac.setLongitude(cursor2.getFloat(3));
-				fac.setFacType(cursor2.getInt(4));
-				fac.setAddress(cursor2.getString(5));
-				fac.setPhone(cursor2.getString(6));
-				fac.setDescription(cursor2.getString(7));
-				fac.setImage(cursor2.getString(8));
-				
-				facs.add(fac);
-				cursor2.moveToNext();
-			}//end of while
-		}//end of if
+		while(iterator.hasNext()){
+			Long facId = iterator.next();
+			selectQuery = "Select * From " 
+							+ FAC_TABLE 
+							+ " Where "
+							+ FAC_TABLE
+							+ "."
+							+ ID 
+							+ "=" 
+							+ facId
+							+ ";";
+		
+			cursor = db.rawQuery(selectQuery, null);
+			
+			if(cursor != null){
+			cursor.moveToFirst();
+				while(cursor.isAfterLast() != true){
+					Facility fac = new Facility();
+					
+					fac.setId(cursor.getInt(0));
+					fac.setName(cursor.getString(1));
+					fac.setLatitude(cursor.getFloat(2));
+					fac.setLongitude(cursor.getFloat(3));
+					fac.setFacType(cursor.getInt(4));
+					fac.setAddress(cursor.getString(5));
+					fac.setPhone(cursor.getString(6));
+					fac.setDescription(cursor.getString(7));
+					fac.setImage(cursor.getString(8));
+					
+					facs.add(fac);
+					cursor.moveToNext();
+				}//end of while
+			}//end of if
+			cursor.close();
+		}
 		return facs;
 	}
 	
