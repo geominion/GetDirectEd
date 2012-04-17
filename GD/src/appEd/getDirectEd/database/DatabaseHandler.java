@@ -553,6 +553,38 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return subActs;
 	}
 	
+	public ArrayList<SubActivity> getAllSubActivities(Activity activity){
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<SubActivity> subActs = new ArrayList<SubActivity>();
+		SubActivity subAct = new SubActivity();
+		Long actId = activity.getId();
+		
+		String selectQuery = "Select * From " 
+								+ SUB_ACT_TABLE 
+								+ " Where "
+								+ SUB_ACT_TABLE
+								+ "."
+								+ SUPER_TYPE
+								+ "="
+								+ actId
+								+ ";";
+		
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		
+		if(cursor != null){
+		cursor.moveToFirst();
+			while(cursor.isAfterLast() != true){
+				subAct.setId(cursor.getInt(0));
+				subAct.setName(cursor.getString(1));
+				subAct.setSuperType(cursor.getInt(2));
+				subAct.setDescription(cursor.getString(3));
+				subActs.add(subAct);
+				cursor.moveToNext();
+			}//end of while
+		}//end of if
+		return subActs;
+	}
+	
 	/**
 	 * Hours CRUD ops
 	 */
