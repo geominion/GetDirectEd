@@ -91,7 +91,7 @@ public class ReadFileManager {
 		try {
 			br.readLine();
 			while( (line = br.readLine()) != null){
-			fields = line.split(",", 1);
+			fields = line.split(",", 2);
 			list.add(fields);
 			}
 		} catch (IOException e) {

@@ -28,7 +28,8 @@ public class SubActivitiesActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                 int position, long id) {
                
-            	queryBox.getFacilities(subList.get(position));
+//            	queryBox.getFacilities(subList.get(position));
+            	queryBox.setFacilities(subList.get(position));
             	Intent intent = new Intent(SubActivitiesActivity.this, FacilitiesActivity.class);
             	SubActivitiesActivity.this.startActivity(intent);
             	

@@ -284,6 +284,71 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return facs;
 	}
 	
+//	SELECT Customers.FirstName, Customers.LastName, SUM(Sales.SaleAmount) AS SalesPerCustomer
+//	FROM Customers, Sales
+//	WHERE Customers.CustomerID = Sales.CustomerID
+//	GROUP BY Customers.FirstName, Customers.LastName 
+	@SuppressWarnings("null")
+	public ArrayList<Facility> getAllFacilities(Activity activity){
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<Facility> facs = new ArrayList<Facility>();
+		Long activityID = activity.getId();
+		String[] facilityIDs = null;
+		Integer i = 0;
+				
+		//TODO use the fac-act table to complete this query
+		String selectQuery = "Select " 
+							+ F_ID
+							+ " From " 
+							+ SUPER_ACT_TABLE
+							+ " Where "
+							+ SUPER_ACT_ID
+							+ " = "
+							+ activityID
+							+ ";";
+//		String selectQuery = "Select * "
+//							+ " From " 
+//							+ SUPER_ACT_TABLE
+//							+ ";";
+		Cursor cursor1 = db.rawQuery(selectQuery, null);
+
+		
+		if(cursor1 != null){
+		cursor1.moveToFirst();
+		System.out.println("THIS CURSOR HAS SOMETHING");
+			while(cursor1.isAfterLast() != true){
+//					System.out.println("THIS CURSOR HAS MORE");
+//					System.out.println(cursor1.getLong(0));
+					facilityIDs[0] = cursor1.getString(0);
+					cursor1.moveToNext();
+			}//end of while
+		}//end of if
+		
+		selectQuery = "Select * From " + FAC_TABLE + ";";
+		Cursor cursor2 = db.rawQuery(selectQuery, null);
+		
+		if(cursor2 != null){
+		cursor2.moveToFirst();
+			while(cursor2.isAfterLast() != true){
+				Facility fac = new Facility();
+				
+				fac.setId(cursor2.getInt(0));
+				fac.setName(cursor2.getString(1));
+				fac.setLatitude(cursor2.getFloat(2));
+				fac.setLongitude(cursor2.getFloat(3));
+				fac.setFacType(cursor2.getInt(4));
+				fac.setAddress(cursor2.getString(5));
+				fac.setPhone(cursor2.getString(6));
+				fac.setDescription(cursor2.getString(7));
+				fac.setImage(cursor2.getString(8));
+				
+				facs.add(fac);
+				cursor2.moveToNext();
+			}//end of while
+		}//end of if
+		return facs;
+	}
+	
 	public Facility getFacility(int id){
 	SQLiteDatabase db = this.getReadableDatabase();
 	Facility fac = new Facility();
@@ -362,6 +427,72 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				cursor.moveToNext();
 			}//end of while
 		}//end of if
+		return acts;
+	}
+	
+//	SELECT Customers.FirstName, Customers.LastName, SUM(Sales.SaleAmount) AS SalesPerCustomer
+//	FROM Customers, Sales
+//	WHERE Customers.CustomerID = Sales.CustomerID
+//	GROUP BY Customers.FirstName, Customers.LastName 
+	public ArrayList<Activity> getAllActivities(Facility facility){
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<Activity> acts = new ArrayList<Activity>();
+		
+		//TODO get a join with fac_act table to finish this query
+		//again might be able to use fac_act table to complete this query
+		//look up fac ID and return all activities that correspond to it
+		String selectQuery = "Select * From " + ACT_TABLE + ";";
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		
+//		//TODO use the fac-act table to complete this query
+//		String selectQuery = "Select " 
+//							+ F_ID
+//							+ " From " 
+//							+ SUPER_ACT_TABLE
+//							+ " Where "
+//							+ SUPER_ACT_ID
+//							+ " = "
+//							+ activityID
+//							+ ";";
+//		String selectQuery = "Select * "
+//							+ " From " 
+//							+ SUPER_ACT_TABLE
+//							+ ";";
+//		Cursor cursor1 = db.rawQuery(selectQuery, null);
+//
+//		
+//		if(cursor1 != null){
+//		cursor1.moveToFirst();
+//			while(cursor1.isAfterLast() != true){
+//				System.out.println(cursor1.getLong(0));
+//				cursor1.moveToNext();
+//		}//end of while
+//		}//end of if
+//		
+//		System.out.println(facilityIDs.length);
+//		for(i=0;i<facilityIDs.length;i++){
+//			System.out.println("** " + facilityIDs[i]);
+//		}
+		
+		if(cursor != null){
+		cursor.moveToFirst();
+			while(cursor.isAfterLast() != true){
+				Activity act = new Activity();
+				act.setId(cursor.getInt(0));
+				System.out.println(" *** " + cursor.getString(1));
+				act.setName(cursor.getString(1));
+				act.setSubType(cursor.getInt(2));
+				act.setDescription(cursor.getString(3));
+				act.setImage(cursor.getString(4));
+				acts.add(act);
+				cursor.moveToNext();
+			}//end of while
+		}//end of if
+		cursor.close();
+		
+		for(int i = 0; i<7;i++){
+			System.out.println("* " + acts.get(i).getName());
+		}
 		return acts;
 	}
 	
@@ -532,44 +663,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 	
 	/**
+	 * Adding relation table for facilities and activities 
+	 */
+	
+	public void addAllRelations(List<String[]> rels){
+		Iterator<String[]> iterator = rels.iterator();
+		
+		System.out.println("In AddAllRelations");
+		while(iterator.hasNext()){
+			String[] relEntry = iterator.next();
+	        addRelation(relEntry);
+		}
+	}
+	
+	public void addRelation(String[] relEntry){
+		System.out.println("In AddRelation");
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		
+		values.put(F_ID, relEntry[0]);
+		values.put(SUPER_ACT_ID, relEntry[1]);
+
+		db.insert(SUPER_ACT_TABLE, null, values);
+		db.close();
+	}
+	
+	/**
 	 * SQL Ops
-	
-	/**
-	 * Activity queries 
 	 */
-	//Get all the activities in the database
-	public void getActivities(){
-		activities = getAllActivities();
-	}
-
-	//get all the activities that a particular facility offers
-	public void getActivities(Facility facility){
-
-	}
-	
-	/**
-	 * Sub_Activity queries
-	 */
-	//get all the sub activities for the inputed database
-	public void getSubActivities(Activity activity){
-		subActivities = getAllSubActivities();
-	}
-	
-	/**
-	 * Facility queries
-	 */
-	//Get all the facilities in the database
-	public void getFacilities(){
-		facilities = getAllFacilities();
-	}
-	//Get all facilities that support a particular activity
-	public void getFacilities(Activity activity){
-
-	}
-	//Get all facilities that support a particular activity
-	public void getFacilities(SubActivity subActivity){
-
-	}
 	
 	public void databaseSetUp(Context context){
         ReadFileManager rfm = new ReadFileManager();
@@ -598,6 +721,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         addAllActivities(actList);
         //addAllSubActivities(subActList);
         //addAllActivityHours(actHList);
+        addAllRelations(superActList);
         System.out.println("ALL DONE"); 
 	}
 	
@@ -610,21 +734,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * Facilities
 	 */
 	//Get all facilities in the DB
-	public void setFacilityList(){
+	public void setFacilities(){
 		facilities = getAllFacilities();
 	}
 	//Get all the facilities that support the inputed activity
-	public void setFacilityList(Activity activity){
+	public void setFacilities(Activity activity){
 		//TODO finish implementation by completing query
 		//facilities = getAllFacilities(activity);
 	}
-	//Get all the facilities that support the inputed SubActivity
-	public void setFacilityList(SubActivity subActivity){
-		//TODO finish implementation by completing query
-		//facilities = getAllFacilities(subActivity);
-	}
 	//return the list of facilities that was populated by one of the above
-	public ArrayList<Facility> getFacilityList(){
+	public ArrayList<Facility> getFacilities(){
 		return facilities;
 	}
 	
@@ -632,16 +751,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * Activities 
 	 */
 	//Get all the activities offered by facilities in edmonton
-	public void setActivityList(){
+	public void setActivities(){
 		activities = getAllActivities();
 	}
 	//Get all the activities that a facility has to offer
-	public void setActivityList(Facility facility){
+	public void setActivities(Facility facility){
 		//TODO finish query with fac_id and fac_act table 
 		//activities = getAllActivities(facility);
 	}
 	//return the list of activities that was populated by one of the above
-	public ArrayList<Activity> getActivityList(){
+	public ArrayList<Activity> getActivities(){
 		return activities;
 	}
 	
@@ -649,11 +768,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * SubActivities
 	 */
 	//Gets all the sub activities that the activity has
-	public void setSubActivityList(Activity activity){
+	public void setSubActivities(Activity activity){
 		subActivities = getAllSubActivities();
 	}
 	//return the list of sub activities that was populated by one of the above
-	public ArrayList<SubActivity> getSubActivityList(){
+	public ArrayList<SubActivity> getSubActivities(){
 		return subActivities;
 	}
 }//end of class

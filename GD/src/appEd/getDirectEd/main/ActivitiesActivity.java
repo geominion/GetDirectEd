@@ -31,12 +31,14 @@ public class ActivitiesActivity extends Activity {
                 int position, long id) {
                
             	if(actList.get(position).getSubType() == 1) {
-            		queryBox.getSubActivities(actList.get(position));
+//            		queryBox.getSubActivities(actList.get(position));
+            		queryBox.setSubActivities(actList.get(position));
             		Intent intent = new Intent(ActivitiesActivity.this, SubActivitiesActivity.class);
             		ActivitiesActivity.this.startActivity(intent);
             	}
             	else {
-            		queryBox.getFacilities(actList.get(position));
+//            		queryBox.getFacilities(actList.get(position));
+            		queryBox.setFacilities(actList.get(position));
                 	Intent intent = new Intent(ActivitiesActivity.this, FacilitiesActivity.class);
                 	ActivitiesActivity.this.startActivity(intent);
             	}
