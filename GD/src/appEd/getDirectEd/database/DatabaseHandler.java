@@ -86,6 +86,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private ArrayList<Activity> activities = new ArrayList<Activity>();
 	private ArrayList<SubActivity> subActivities = new ArrayList<SubActivity>();
 	private ArrayList<Facility> facilities = new ArrayList<Facility>();
+	
+	private Facility facility = new Facility();
 
 	// Constructor
 	/**
@@ -482,26 +484,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * @param id
 	 * @return
 	 */
-	public Facility getFacility(int id){
+	public void setFacility(long id){
 		SQLiteDatabase db = this.getReadableDatabase();
-		Facility fac = new Facility();
+		facility = new Facility();
 		
 		String selectQuery = "Select * From " + FAC_TABLE + " where id = " + id + ";";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 	
 		if (cursor != null){
 			cursor.moveToFirst();
-			fac.setId(cursor.getInt(0));
-			fac.setName(cursor.getString(1));
-			fac.setLatitude(cursor.getFloat(2));
-			fac.setLongitude(cursor.getFloat(3));
-			fac.setFacType(cursor.getInt(4));
-			fac.setAddress(cursor.getString(5));
-			fac.setPhone(cursor.getString(6));
-			fac.setDescription(cursor.getString(7));
-			fac.setImage(cursor.getString(8));
+			facility.setId(cursor.getInt(0));
+			facility.setName(cursor.getString(1));
+			facility.setLatitude(cursor.getFloat(2));
+			facility.setLongitude(cursor.getFloat(3));
+			facility.setFacType(cursor.getInt(4));
+			facility.setAddress(cursor.getString(5));
+			facility.setPhone(cursor.getString(6));
+			facility.setDescription(cursor.getString(7));
+			facility.setImage(cursor.getString(8));
 			}//end of if
-		return fac;
 	}//end of getFacility
 
 	/**
@@ -924,17 +925,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void setFacilities(){
 		facilities = getAllFacilities();
 	}//end of setFacilities
-	
+
 	//Get all the facilities that support the inputed activity
 	public void setFacilities(Activity activity){
 		//TODO finish implementation by completing query
 		facilities = getAllFacilities(activity);
+	}//end of setFacilities
+
+	//Get all the facilities that support the inputed activity
+	public void setFacilities(SubActivity activity){
+		//TODO: create a getAll Facilities for SubActivities
+		//facilities = getAllFacilities(activity);
+		facilities = new ArrayList<Facility>();
 	}//end of setFacilities
 	
 	//return the list of facilities that was populated by one of the above
 	public ArrayList<Facility> getFacilities(){
 		return facilities;
 	}//end of setFacilities
+	
+	public Facility getFacility() {
+		return facility;
+	}
 	
 	/*
 	 * Activities 
