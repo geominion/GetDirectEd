@@ -30,7 +30,7 @@ import appEd.getDirectEd.database.DatabaseHandler;
 	            public void onItemClick(AdapterView<?> parent, View view,
 	                int position, long id) {
 	            	queryBox.setFacility(facList.get(position).getId());
-            		Intent intent = new Intent(AllFacilityActivity.this, SubActivitiesActivity.class);
+            		Intent intent = new Intent(AllFacilityActivity.this, FacilityDetailsActivity.class);
             		AllFacilityActivity.this.startActivity(intent);
 	            }
 	         });

@@ -16,24 +16,21 @@ public class FacilityDetailsActivity extends Activity {
         
         final DatabaseHandler queryBox = GetDirectEdApplication.getDatabase();
         
-        // Facility afacility = queryBox.getFacility();
+        Facility afacility = queryBox.getFacility();
         
         //for testing purposes
-        Facility afacility = new Facility();
+        /*Facility afacility = new Facility();
         afacility.setName("Josh's Recland");
         afacility.setAddress("123 Upyourass");
         afacility.setPhone("780-555-1234");
         afacility.setDescription("This facility is so awesome it will literally make you involuntarily wet your pants." +
-        		" It has everything you could possible want from a facility and more.");
+        		" It has everything you could possible want from a facility and more.");*/
         // end testing
         
         
         TextView infoView = (TextView) findViewById(R.id.textView1);
-        infoView.setText(afacility.getName());
-        infoView.setText(afacility.getAddress());
-        infoView.setText(afacility.getPhone());
-        infoView.setText("\n");
-        infoView.setText(afacility.getDescription());
+        infoView.setText(afacility.getName() + "\n" + afacility.getAddress() + "\n" + afacility.getPhone() + 
+        		"\n" + afacility.getDescription());
         
 	}
 }
