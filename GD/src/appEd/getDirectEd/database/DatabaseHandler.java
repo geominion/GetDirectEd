@@ -984,7 +984,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 */
 	//Gets all the sub activities that the activity has
 	public void setSubActivities(Activity activity){
-		subActivities = getAllSubActivities();
+		subActivities = getAllSubActivities(activity);
 	}//end of getSubActivities
 	
 	//return the list of sub activities that was populated by one of the above
