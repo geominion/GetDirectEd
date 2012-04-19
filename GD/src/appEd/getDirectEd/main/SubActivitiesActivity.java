@@ -23,8 +23,8 @@ public class SubActivitiesActivity extends Activity {
         ListView activityView = (ListView) findViewById(R.id.listView1);
         final DatabaseHandler queryBox = GetDirectEdApplication.getDatabase();
 
-        //final ArrayList<appEd.getDirectEd.model.SubActivity> subList = queryBox.getSubActivities();
-        final ArrayList<appEd.getDirectEd.model.SubActivity> subList = new ArrayList<SubActivity>();
+        final ArrayList<appEd.getDirectEd.model.SubActivity> subList = queryBox.getSubActivities();
+        //final ArrayList<appEd.getDirectEd.model.SubActivity> subList = new ArrayList<SubActivity>();
         activityView.setAdapter(new SubActivityListString(this, subList));
         
         activityView.setOnItemClickListener(new OnItemClickListener() {
@@ -32,7 +32,7 @@ public class SubActivitiesActivity extends Activity {
                 int position, long id) {
                
 //            	queryBox.getFacilities(subList.get(position));
-            	queryBox.setFacilities(subList.get(position));
+            	//queryBox.setFacilities(subList.get(position));
             	Intent intent = new Intent(SubActivitiesActivity.this, FacilitiesActivity.class);
             	SubActivitiesActivity.this.startActivity(intent);
             	
