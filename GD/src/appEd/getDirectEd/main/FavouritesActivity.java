@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import appEd.getDirectEd.database.DatabaseHandler;
 
@@ -26,7 +27,9 @@ public class FavouritesActivity extends Activity {
         favouritesView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                 int position, long id) {
-               
+            	 Toast.makeText(getBaseContext(), "No favourites added yet!", Toast.LENGTH_SHORT).show();
+           
+
             }
          });
 	}
