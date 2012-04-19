@@ -86,6 +86,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private ArrayList<Activity> activities = new ArrayList<Activity>();
 	private ArrayList<SubActivity> subActivities = new ArrayList<SubActivity>();
 	private ArrayList<Facility> facilities = new ArrayList<Facility>();
+	private ArrayList<String[]> hours = new ArrayList<String[]>();
 	
 	private Facility facility = new Facility();
 
@@ -503,8 +504,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			facility.setDescription(cursor.getString(7));
 			facility.setImage(cursor.getString(8));
 			}//end of if
+		
+		//TODO call method to populate hours
+		setHours(id);
 	}//end of getFacility
 
+	public void setHours(Long id){
+		
+	}
+	
+	public ArrayList<String[]> getHours(){
+		return hours;
+	}
+	
 	/**
 	 * End of Facility CRUD ops
 	 */
@@ -903,7 +915,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         facList = rfm.ReadFile(facFile, context, 8);
         actList = rfm.ReadFile(ActFile, context, 5);
         subActList = rfm.ReadFile(SubActFile, context, 5);
-        actHList = rfm.ReadFile(ActHoursFile, context, 6);
+        actHList = rfm.ReadFile(ActHoursFile, context, 7);
         superActList = rfm.ReadFile(facSuperAct, context, 2);
         facTypeList = rfm.ReadFile(facType, context, 3);
         
