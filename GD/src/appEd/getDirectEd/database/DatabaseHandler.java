@@ -723,7 +723,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public ArrayList<SubActivity> getAllSubActivities(Activity activity){
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<SubActivity> subActs = new ArrayList<SubActivity>();
-		SubActivity subAct = new SubActivity();
+//		SubActivity subAct = new SubActivity();
 		Long actId = activity.getId();
 		
 		String selectQuery = "Select * From " 
@@ -741,6 +741,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		if(cursor != null){
 		cursor.moveToFirst();
 			while(cursor.isAfterLast() != true){
+				SubActivity subAct = new SubActivity();
 				subAct.setId(cursor.getInt(0));
 				subAct.setName(cursor.getString(1));
 				subAct.setSuperType(cursor.getInt(2));
