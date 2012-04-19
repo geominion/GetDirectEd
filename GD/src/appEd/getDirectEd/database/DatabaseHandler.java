@@ -421,7 +421,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 							+ " Where "
 							+ SUPER_ACT_TABLE
 							+ "."
-							+ A_ID 
+							+ SUPER_ACT_ID 
 							+ "=" 
 							+ activityId
 							+ ";";
