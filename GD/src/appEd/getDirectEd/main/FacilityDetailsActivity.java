@@ -42,6 +42,7 @@ public class FacilityDetailsActivity extends Activity {
         				"\nACTIVITY 14  17:00-19:00" +
         				"\nACTIVITY 15  18:30-20:30" );
         
+        
         Button button1 = (Button)findViewById(R.id.button1);
 		button1.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
