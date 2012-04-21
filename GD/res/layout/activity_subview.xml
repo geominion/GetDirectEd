@@ -21,5 +21,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>
+    
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:text="@string/facilities"
+        android:gravity="bottom" />
+    
 
 </RelativeLayout>
