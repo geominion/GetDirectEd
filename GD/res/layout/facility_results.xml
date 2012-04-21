@@ -11,4 +11,11 @@
         android:gravity="center_horizontal"
         android:text="TextView" />
     
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:text="@string/facilities"
+        android:gravity="bottom|horizontal_center" />
+    
 </LinearLayout>

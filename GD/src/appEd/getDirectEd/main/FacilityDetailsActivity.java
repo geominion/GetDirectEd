@@ -1,7 +1,11 @@
 package appEd.getDirectEd.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import appEd.getDirectEd.database.DatabaseHandler;
 import appEd.getDirectEd.model.Facility;
@@ -37,6 +41,14 @@ public class FacilityDetailsActivity extends Activity {
         				"\nACTIVITY 13  16:00-18:00" +
         				"\nACTIVITY 14  17:00-19:00" +
         				"\nACTIVITY 15  18:30-20:30" );
+        
+        Button button1 = (Button)findViewById(R.id.button1);
+		button1.setOnClickListener(new OnClickListener() {
+			public void onClick(View arg0) {
+				Intent intent = new Intent(FacilityDetailsActivity.this, GetDirectEdActivity.class);
+            	startActivity(intent);       
+			}
+		});
         
 	}
 }
