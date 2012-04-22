@@ -7,10 +7,10 @@
     <TextView
         android:id="@+id/textview_text"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50sp"
     	android:gravity="center"
         android:text="@string/default_value"
         android:textColor="@color/textview"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textSize="40sp" />
 
 </LinearLayout>
