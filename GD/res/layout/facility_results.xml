@@ -15,7 +15,7 @@
         android:id="@+id/button1"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
-        android:text="@string/facilities"
+        android:text="@string/home"
         android:gravity="bottom" />
     
 </LinearLayout>

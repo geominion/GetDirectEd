@@ -15,5 +15,6 @@
     <string name="r_now">Right Now</string>
     <string name="favourites">Favourites</string>
     <string name="default_value">Default</string>
+    <string name="home">Return to Main Page</string>
 
 </resources>
